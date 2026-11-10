@@ -63,8 +63,8 @@
   <header>
     <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
       <div class="logo">🌮 GLOBALTACOS</div>
-      <!-- 1. 出典：国土地理院のバッジ表示 -->
-      <span class="attribution-badge">出典：国土地理院の地理院タイルを加工して作成</span>
+      <!-- 1. 出典表記の更新 -->
+      <span class="attribution-badge" id="headerAttribution">出典：国土地理院の地理院タイルを加工して作成</span>
     </div>
     <div class="controls">
       <!-- 言語切替 -->
@@ -119,11 +119,12 @@
     // 辞書データ
     const i18n = {
       ja: {
+        headerAttribution: "出典：国土地理院の地理院タイルを加工して作成",
         optAll: "全50カ国", optOver: "割高 (赤)", optUnder: "割安 (青)",
         labelFx: "🌐 リアルタイム為替:", btnReload: "更新",
         placeholder: "ピンまたは国リストを選択すると詳細が表示されます。",
-        labelRanking: "タコス指数ランキング (日本円換算)",
-        priceUsd: "1タコス価格 (USD):", priceJpy: "日本円換算:", pppRatio: "適正価格比 (PPP):",
+        labelRanking: "タコス物価指数ランキング (日本円換算)",
+        priceUsd: "1タコス価格 (USD):", priceJpy: "日本円換算:", pppRatio: "タコス物価指数 (対メキシコ比):",
         travelTitle: "✈️ $1,000を持って旅行に行くと…",
         buyable: "個買える！",
         overTag: "🔴 割高国", underTag: "🔵 割安国", baseTag: "🟢 基準国",
@@ -132,11 +133,12 @@
         lowText: "現地物価が安く、購買力が高い状態です。"
       },
       en: {
+        headerAttribution: "Created by processing GSI Tiles (Geospatial Information Authority of Japan)",
         optAll: "All 50 Countries", optOver: "Overvalued (Red)", optUnder: "Undervalued (Blue)",
         labelFx: "🌐 Live FX Rate:", btnReload: "Refresh",
         placeholder: "Select a pin or ranking item to see PPP details.",
         labelRanking: "Taco Index Ranking (JPY Equivalent)",
-        priceUsd: "Price per Taco (USD):", priceJpy: "JPY Equivalent:", pppRatio: "PPP Ratio:",
+        priceUsd: "Price per Taco (USD):", priceJpy: "JPY Equivalent:", pppRatio: "Taco Price Index (vs Mexico):",
         travelTitle: "✈️ With a $1,000 Travel Budget...",
         buyable: "Tacos buyable!",
         overTag: "🔴 Overvalued", underTag: "🔵 Undervalued", baseTag: "🟢 Base Country",
@@ -145,11 +147,12 @@
         lowText: "Low cost of living; higher local purchasing power."
       },
       es: {
+        headerAttribution: "Creado mediante el procesamiento de GSI Tiles (Autoridad de Información Geoespacial de Japón)",
         optAll: "Todos 50 Países", optOver: "Sobrevalorado (Rojo)", optUnder: "Subvalorado (Azul)",
         labelFx: "🌐 Tipo de Cambio:", btnReload: "Actualizar",
         placeholder: "Seleccione un pin o elemento de la lista para ver detalles.",
         labelRanking: "Ranking de Índice Taco (En JPY)",
-        priceUsd: "Precio por Taco (USD):", priceJpy: "Equivalente en JPY:", pppRatio: "Ratio PPP:",
+        priceUsd: "Precio por Taco (USD):", priceJpy: "Equivalente en JPY:", pppRatio: "Índice de Precio Taco (vs México):",
         travelTitle: "✈️ Con un presupuesto de $1,000 USD...",
         buyable: "¡Tacos comprables!",
         overTag: "🔴 Sobrevalorado", underTag: "🔵 Subvalorado", baseTag: "🟢 País Base",
@@ -223,7 +226,7 @@
       // Leaflet地図初期化
       map = L.map('map').setView([20, 0], 2);
       L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {
-        attribution: '&copy; 国土地理院', maxZoom: 18
+        attribution: '&copy; 国土地理院の地理院タイルを加工して作成', maxZoom: 18
       }).addTo(map);
 
       // スマホの画面回転やサイズ変更時の地図レイアウト自動補正
@@ -267,6 +270,7 @@
       currentLang = document.getElementById('langSelect').value;
       const t = i18n[currentLang];
 
+      document.getElementById('headerAttribution').innerText = t.headerAttribution;
       document.getElementById('optAll').innerText = t.optAll;
       document.getElementById('optOver').innerText = t.optOver;
       document.getElementById('optUnder').innerText = t.optUnder;
